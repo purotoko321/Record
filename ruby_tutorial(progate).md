@@ -148,3 +148,112 @@ end
 navi(num:5,name:"purotoko")
 ```
 
+#### クラスの定義方法
+クラスに情報を持たせる場合は
+`attr_accessor シンボル`
+とする。
+[attr_accessorリファレンス](https://docs.ruby-lang.org/ja/latest/method/Module/i/attr_accessor.html)
+つなげて書くこともできる
+``` ruby
+class menu
+    attr_accessor :name :price
+end
+```
+
+#### インスタンスの生成、使用方法
+生成
+``` ruby
+menu1 = Menu.new
+```
+インスタンス変数への代入
+``` ruby
+menu1.name = "すし"
+puts menu1.name
+#すし
+```
+#### クラスの中でのインスタンスメソッド定義、呼び出し
+``` ruby
+class menu
+    attr_accessor :name :price
+    def show
+        puts "私はすしです"
+    end
+end
+menu1 = menu.new
+menu1.show
+#私はすしです
+```
+引数も戻り値も普通に使える
+``` ruby
+class menu
+    attr_accessor :name :price
+    def show(data)
+        return "わたしは#{data}です"
+    end
+end
+menu1 = menu.new
+puts menu1.show("すし")
+#私はすしです
+```
+インスタンスメソッド内で
+`self.変数名`
+とすることで呼び出したインスタンス自身を使える。
+``` ruby
+class menu
+    attr_accessor :name :price
+    def show
+        puts "私は#{self.menu}です"
+    end
+end
+menu1 = menu.new
+menu1.name = "すし"
+puts menu1.show
+#私はすしです
+```
+#### initializeメソッド
+インスタンス生成時に呼び出されるメソッド
+``` ruby
+class menu
+    attr_accessor :name :price
+    def initialize
+        self.name = "すし"
+    end
+end
+menu1 = menu.new
+puts "わたしは#{menu1.name}です"
+#私はすしです
+```
+initializeメソッドにも引き数を渡せる
+newするときに渡せばOK
+``` ruby
+class menu
+    attr_accessor :name :price
+    def initialize(name:,price:)
+        self.name = name
+        self.price = price
+    end
+end
+menu1 = menu.new(name:"すし",price:"800")
+puts "私は#{menu1.name}です。#{menu1.price}円です"
+#私はすしです。800円です
+```
+
+#### クラス定義を呼び出す(外部ファイルを呼びだす)
+requireを使う
+(importではない)
+``` ruby
+#./menu.rbを呼び出す。.rbは省略できる
+require "./menu"
+```
+#### インスタンスの配列
+生成したインスタンスは配列に入れることができる
+``` ruby
+require "./menu"
+menu1 = Menu.new(name:"りんご", price:100")
+menu2 = Menu.new(name:"ごりら", price:200)
+menues = [menu1,menu2]
+
+menus.each do|menu|
+    puts menu.info
+end
+```
