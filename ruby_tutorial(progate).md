@@ -257,3 +257,139 @@ menus.each do|menu|
     puts menu.info
 end
 ```
+
+#### 継承
+めっちゃ簡単<て書くだけ
+``` ruby
+class Menu
+    attr_accessor :name
+    attr_accessor :price
+end
+class Food < Menu
+    attr_accessor :calorie
+    def calorie_info 
+        puts "800カロリー"
+    end
+end
+Food.calorie_info
+```
+#### オーバーライド
+親クラスにあるメソッドを子クラスで定義すると上書きできる
+子クラスのインスタンスは親ではなく子クラスのインスタンスを呼ぶようになる。
+``` ruby
+class Menu
+    attr_accessor :name
+    attr_accessor :price
+    def info 
+        self.name = "すし"
+        self.price = 800
+    end
+end
+class Food < Menu
+    attr_accessor :calorie
+    def info 
+        self.calorie = 500
+    end
+end
+Food.name
+#すし
+```
+#### initializeもオーバーライドできる
+``` ruby
+class Menu
+    attr_accessor :name
+    attr_accessor :price
+    def initialize(name:,price:)
+        self.name = "わかめ"
+        self.price = 500
+    end
+end
+class Food < Menu
+    attr_accessor :calorie
+    def initialize(name:,price:,calorie:) 
+        self.name = name
+        self.price = price
+        self.calorie = calorie
+    end
+end
+Food1 = Food.new(name:"すし",price:300,calorie:500)
+puts Food1.price
+#300
+puts Food1.calorie
+#500
+```
+#### super
+オーバーライドしたメソッドの中でsuperとすると、親クラスの同名メソッドを呼び出すことができる
+子クラス（sub）に同名メソッドがあっても親クラス(super)のメソッドを呼び出せる
+``` ruby
+class Menu
+    attr_accessor :name
+    attr_accessor :price
+    def initialize(name:,price:)
+        self.name = "わかめ"
+        self.price = 500
+    end
+end
+class Food < Menu
+    attr_accessor :calorie
+    def initialize(name:,price:,calorie:) 
+        super(name:name,price:price)
+        self.calorie = calorie
+    end
+end
+Food1 = Food.new(name:"すし",price:300,calorie:500)
+puts Food1.price
+#300
+puts Food1.calorie
+#500
+```
+
+#### Dateクラス
+標準クラスの読み込み
+``` ruby
+require "date"
+date1 = Date.new(2021,03,15)
+puts date1
+#2021-03-15
+puts date.sunday?#インスタンスメソッドの使用
+# false
+```
+dateクラスではDate.todayとすることによって
+インスタンスを生成することもできる
+``` ruby 
+require "date"
+date1 = Date.today
+purs date1
+# 2021/03/15
+```
+上記で使用した
+`Date.today`
+はクラスメソッドという
+インスタンスメソッドとの違いは、クラスに対して呼び出すか
+インスタンスに対して呼び出すかの違い、、、らしい
+
+#### クラスメソッドの定義とよびだし
+インスタンスメソッドの定義との違いは
+メソッド名の前にクラス名を書く必要があること
+呼び出し方法は定義時と同じようにクラス名+メソッド名
+* クラスメソッドの定義
+``` ruby
+class Menu
+    def Menu.is_discount_day?
+        #処理
+    end
+end
+puts Menu.is_discount_day?
+```
+* インスタンスメソッドの定義
+``` ruby
+class Menu
+    def is_discount_day?
+        #処理
+    end
+end
+Menu1 = Menu.new
+puts Menu1.is_discount_day?
+```
+クラスメソッドはnewしなくていいのが利点？
+
