@@ -141,5 +141,50 @@ httpでは日時は全てGMTで表す。これによりサマータイムの問�
         上の例だとShift-Jisが優先度１となり、その次にデフォルト値のISO8869-1が優先となり、そのほかは0.7の優先度となります。
     * Accept-Language-処理出来る言語を伝える
         ```
-        ß 
+        Accept-Language: ja,en-us;q=0.7,en;q=0.3 
         ```
+        上の例だと、jaが1、en-usが0.7、enが0.3の優先度
+* Content-Lengthとチャンク転送
+    メッセージがボディを持っている場合基本的には`Content-Length`を使用して10進数のバイトで示す。
+    ```
+    Content-Length: 5538
+    ```
+* チャンク転送
+    ```
+    Transfer-Encoding: chunkd
+    ```
+    ボディを分割して送付できる
+
+* 認証
+Basic認証とDigest認証がある
+Basic認証はIDとパスワードを:で連結し、Base64エンコードする方式。
+Base64はすぐに複合できるのでそれがOKなのか、ダメならTLSなどを使ってHTTPS通信し通信経路上で暗号化をするのかを検討する必要がある
+Digest認証はパスワードが盗まれる心配のない方式だが、複雑なのであまり使われていない。
+
+##### キャッシュとは
+サーバーから取得したリソースをローカルストレージに保存し再利用する仕組み。
+* キャッシュ用ヘッダ
+    * Pragma --キャッシュ用レスポンスヘッダ
+        ```
+        pragma: no-cache
+        ```
+        pragmaに指定できるのは`no-cache`のみ
+        キャッシュさせないことを示す
+    * Expire --キャッシュの有効期限を示す
+        ```
+        Expire: Thu, 11 May 2010 16:00:00 GMT
+        ```
+        キャッシュの有効期限を示す
+    * Cache-Control --詳細なキャッシュ方法を指定する
+    html1.1から追加された機能
+    上記二つはCache-Controlにて代用できる。
+    ```
+    Pragma: no-cache
+    は
+    Cache-Control: no-cache 
+    ```
+    ```
+    Cache-Control:max-age:86400
+    は24時間キャッシュが有効であることを示す
+    ```
+
