@@ -82,8 +82,54 @@ $('p').css('display','blocj');
 $('p').text('こんばんは');
 $('p').html(<span>こんばんは</span>);
 ```
+#### this構文
+イベントの中で起こった要素を取得することができる  
+```
+$('li').click(function(){
+    $(this).css('color','red');
+});
+```
 
+#### 変数
+jqeryの変数宣言はわかりやすいように慣例として頭に$をつける
+```
+const $s = $('div');
+$s.css('color','red');
+$s.html('jQuery');
+```
 
+#### メソッドチェーン
+メソッドはつなげることができる
+```
+const $s = $('div');
+s.css('color','red').html('jQuery');
+```
+#### find
+指定したセレクタのをもつ要素を全て取得する
+```
+$(#warapper).find('a').css('color','red');
+```
+#### children
+指定したセレクタの持つ子要素の中から指定したセレクタに合致した要素を取得するとき使用する
+```
+$('wrapper').children('a').css('color','red');
+```
+
+#### hover
+マウスが乗った時だけ処理
+```
+  $('#language-wrapper').hover(
+      function(){
+        $('.language-text').fadeIn();
+      },
+      function(){
+        $('.language-text').fadeOut();
+      }
+    );
+```
+
+#jQueryの読み込み
+bodyの終了タグの直前で読み込むとwebページの表示速度が上がる
 
 
 
