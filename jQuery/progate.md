@@ -128,9 +128,34 @@ $('wrapper').children('a').css('color','red');
     );
 ```
 
-#jQueryの読み込み
-bodyの終了タグの直前で読み込むとwebページの表示速度が上がる
+#### jQueryの読み込み
+スクリプトタグはbodyの終了タグの直前に書くと読み込むとwebページの表示速度が上がる
 
+#### jQueryの基本的な始め方
+jsファイルのなかにreadyイベントの記述をしてから始める。  
+readyイベントは省略できる
+```
+$(document).ready(function(){
+    //処理
+});
+//省略形
+$(function(){
+    //処理
+});
+```
 
+#### addClass
+指定した要素にクラスを追加することができる  
+addclassの前に.は不要
+```
+$('.text-contents').addClass('text-active');
+```
+
+#### removeClass
+指定した要素にクラスを取り除くことができる  
+removeclassの前に.は不要
+```
+$('.text-contents').removeClass('text-active');
+```
 
 
